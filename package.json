@@ -11,6 +11,12 @@
     "e2e:ci:legacy": "pnpm start & wait-on http-get://localhost:3000/ && npx cypress run --config-file ../cypress-e2e/config/cypress.config.ts --config '{\"supportFile\": \"../cypress-e2e/support/e2e.ts\"}' --spec \"./e2e/*.cy.ts\" --browser=chrome"
   },
   "dependencies": {
-    "wait-on": "^7.2.0"
+    "wait-on": "^7.2.0",
+    "webpack": "5.89.0",
+    "@types/react": "18.0.38",
+    "@types/react-dom": "18.0.11"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5"
   }
 }
