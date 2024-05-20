@@ -1,6 +1,11 @@
 import path from 'path';
 
+const cors = require('cors')
+
 function middleware(express, app, done) {
+
+  app.use(cors())
+
   // static path where files such as images and js will be served from
   app.use('/static', express.static(path.join(process.cwd(), 'dist/client')));
 

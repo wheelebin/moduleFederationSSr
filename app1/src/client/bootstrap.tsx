@@ -2,23 +2,17 @@ import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import App from "./components/App";
 
-import getComponent from "../shared/getComponent";
+import getComponents from "../shared/getComponent"
 
 const render = async (App) => {
   const root = document.getElementById("root");
   const { componentsToRender } = window.__INITIAL_DATA__;
 
-  const items = await Promise.all(
-    componentsToRender.map(async (item) => getComponent(item))
-  );
+  const items = await getComponents(componentsToRender, false);
 
   console.log("items", items);
 
-  // Testing to get a component from within this app (app1)
-  // Will be needed for hydration of dynamic stuffs
-  const Test = await getComponent({ name: "app1/Test" });
 
-  console.log("Test", Test);
 
   ReactDOMClient.hydrateRoot(root, <App items={items} />);
 };
