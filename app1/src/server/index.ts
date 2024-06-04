@@ -1,27 +1,18 @@
-import express from "express";
-import initMiddleware from "./middleware";
-
-
+const express = require('express');
+const initMiddleware = require('./middleware');
 
 const app = express();
 const PORT = 3000;
 
-app.get("/api/user", async (req, res) => {
-  try {
-    // loads the userRoute route function from another app2
-    const federatedUserRoute = (await import("app2/userRoute")).userRoute;
-    // calls the userRoute function
-    await federatedUserRoute(req, res);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send("Internal Server Error");
-  }
-});
-// Or in a more direct way
-// app.get('/api/user', async (...args) => (await import('app2/userRoute')).userRoute(args[0], args[1]));
+global.clearRoutes = () => {
+  // console.log('APP ROUTES STACK: ', app._router.stack);
+  app._router.stack = app._router.stack.filter(
+    (k) => !(k && k.route && k.route.path)
+  );
+};
 
 const done = () => {
-  app.listen(PORT, () => {
+  return app.listen(PORT, () => {
     console.info(
       `[${new Date().toISOString()}]`,
       `Shell App is running: 🌎 http://localhost:${PORT}`
@@ -31,4 +22,5 @@ const done = () => {
 
 initMiddleware(express, app, done);
 
-export default app;
+module.exports = app;
+

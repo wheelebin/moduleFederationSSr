@@ -15,14 +15,10 @@ const webpackConfig = {
     filename: '[name].js',
     chunkFilename: '[name].[contenthash].js',
     libraryTarget: 'commonjs-module',
-    publicPath: 'http://localhost:3001/server/',
+    publicPath: 'auto',
   },
   mode: 'development',
   plugins: [...moduleFederationPlugin.server],
-  // devtool: false,
-  optimization: {
-    minimize: false,
-  },
   stats: {
     colors: true,
   },

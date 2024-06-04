@@ -2,13 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import Content from './Content';
-import { Globals } from "@bwoty-web/ui-kit"
 
 const App = () => {
   const [state, setState] = React.useState<string>('');
 
   return (
-    <Globals siteId="18">
+    <>
       <div
         style={{
           padding: '1rem',
@@ -40,7 +39,7 @@ const App = () => {
 
         <Content content={state} />
       </div>
-    </Globals>
+    </>
   );
 };
 

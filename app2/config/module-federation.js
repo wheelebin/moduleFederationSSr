@@ -1,15 +1,14 @@
 const deps = require("../package.json").dependencies;
 const { ModuleFederationPlugin } = require("@module-federation/enhanced");
+const { UniversalFederationPlugin } = require('@module-federation/node');
 
 module.exports = {
   client: new ModuleFederationPlugin({
     name: "app2",
-    filename: "remoteEntry.js",
+    filename: 'remoteEntry.js',
     exposes: {
       "./Content": "./src/client/components/Content",
     },
-    remotes: {},
-
     shared: {
       react: {
         version: deps.react,
@@ -19,26 +18,19 @@ module.exports = {
         version: deps["react-dom"],
         singleton: true,
       },
-      "@bwoty-web/ui-kit": {
-        version: deps["@bwoty-web/ui-kit"],
-        singleton: true,
-      },
     },
   }),
   server: [
-    new ModuleFederationPlugin({
+    new UniversalFederationPlugin({
       name: "app2",
+      isServer: true,
       library: { type: "commonjs-module", name: "app2" },
       remoteType: "script",
-      filename: "remoteEntry.js",
+      filename: 'remoteEntry.js',
       exposes: {
         "./Content": "./src/client/components/Content",
         "./userRoute": "./src/server/routes/user",
       },
-      runtimePlugins: [
-        require.resolve("@module-federation/node/runtimePlugin"),
-      ],
-      remotes: {},
       shared: {
         react: {
           version: deps.react,
@@ -46,10 +38,6 @@ module.exports = {
         },
         "react-dom": {
           version: deps["react-dom"],
-          singleton: true,
-        },
-        "@bwoty-web/ui-kit": {
-          version: deps["@bwoty-web/ui-kit"],
           singleton: true,
         },
       },

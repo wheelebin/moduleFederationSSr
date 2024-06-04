@@ -71,8 +71,8 @@ export const loadRemotes = async (isServer) => {
 
   await preloadRemote(remotes.map(({ name }) => ({ nameOrAlias: name })));
 
-  const resp = await loadRemote("app2/Content");
-  console.log("resp", resp);
+  /* const resp = await loadRemote("app2/Content");
+  console.log("resp", resp); */
 };
 
 export const reloadRemotes = async (components, isServer) => {

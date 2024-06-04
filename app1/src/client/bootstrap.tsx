@@ -2,17 +2,13 @@ import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import App from "./components/App";
 
-import getComponents from "../shared/getComponent"
+import { getComponents } from "../shared/loader";
 
 const render = async (App) => {
   const root = document.getElementById("root");
   const { componentsToRender } = window.__INITIAL_DATA__;
 
   const items = await getComponents(componentsToRender, false);
-
-  console.log("items", items);
-
-
 
   ReactDOMClient.hydrateRoot(root, <App items={items} />);
 };

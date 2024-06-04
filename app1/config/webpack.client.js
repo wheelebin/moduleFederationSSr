@@ -15,8 +15,8 @@ const webpackConfig = {
   output: {
     path: path.resolve(__dirname, '../dist/client'),
     filename: '[name].js',
-    chunkFilename: '[name].js',
-    publicPath: 'http://localhost:3000/static/',
+    chunkFilename: '[name].[contenthash].js',
+    publicPath: 'auto',
   },
   plugins: [moduleFederationPlugin.client],
 };

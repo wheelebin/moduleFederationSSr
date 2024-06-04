@@ -9,15 +9,12 @@ const moduleFederationPlugin = require('./module-federation');
 const webpackConfig = {
   name: 'server',
   target: 'async-node',
-  entry: ['@babel/polyfill', path.resolve(__dirname, '../src/server/index')],
+  entry: [ path.resolve(__dirname, '../src/server/index')],
   output: {
     path: path.resolve(__dirname, '../dist/server'),
     filename: '[name].js',
-    libraryTarget: 'commonjs-module',
-    publicPath: 'auto',
-  },
-  optimization: {
-    minimize: false,
+    chunkFilename: '[id]-[chunkhash].js',
+    libraryTarget: "commonjs-module",
   },
   mode: 'development',
   plugins: [...moduleFederationPlugin.server],
