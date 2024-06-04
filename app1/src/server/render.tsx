@@ -5,7 +5,7 @@ import { renderToPipeableStream } from "react-dom/server";
 
 import App from "../client/components/App";
 
-import { getComponents } from "../shared/loader";
+import { getComponents, loadRemotes } from "../shared/loader";
 import { revalidate } from "@module-federation/node/utils";
 
 const revalidateCheck = async (res) => {
@@ -29,7 +29,12 @@ const componentsToRender = [
 ];
 
 export default async (req, res, next) => {
-  revalidateCheck(res);
+  const reloaded = await revalidateCheck(res);
+
+  if (reloaded) {
+    loadRemotes(true, true)
+    return res.send("Reloading...");
+  }
 
   const helmet = Helmet.renderStatic();
   let didError = false;

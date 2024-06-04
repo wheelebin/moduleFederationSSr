@@ -21,7 +21,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
         }}
         data-e2e="APP_2_CONTENT_BLOCK"
       >
-        <h2>App 2: Content 1</h2>
+        <h2>App 2: Content 1337</h2>
         <p>This is the content from app2.</p>
         <p>
           Custom text: <strong>{props.content}</strong>

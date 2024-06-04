@@ -11,7 +11,7 @@ import * as reactDom from "react-dom";
 
 const runtimePlugin = function () {
   return {
-    name: "idun-runtime-plugin",
+    name: "app1-runtime-plugin",
     beforeInit(args) {
       console.log("beforeInit: ");
       return args;
@@ -108,6 +108,7 @@ export const loadSharedDep = (name) => {
 };
 
 export const initialize = (remotes = []) => {
+  console.log("Initializing app1");
   const isServer = typeof window === "undefined";
 
   const plugins = [];
@@ -116,7 +117,7 @@ export const initialize = (remotes = []) => {
   }
 
   init({
-    name: "idun",
+    name: "app1",
     remotes,
     plugins,
     shared: {
@@ -137,6 +138,8 @@ export const initialize = (remotes = []) => {
     },
   });
 };
+
+
 
 const globalRemotesMap = {
   client: [
@@ -163,6 +166,8 @@ const globalRemotesMap = {
 export const loadRemotes = async (isServer, wasRevalidated = false) => {
   const remotes = globalRemotesMap[isServer ? "server" : "client"];
 
+  // initialize();
+
   if (isServer && wasRevalidated) {
     console.log("Forcing remotes to re-register");
     registerRemotes(remotes, {
@@ -179,12 +184,10 @@ export const loadRemotes = async (isServer, wasRevalidated = false) => {
       force: wasRevalidated,
     });
     console.log("Preloading remotes");
-    await preloadRemote(remotes.map(({ name }) => ({ nameOrAlias: name })));
   } else {
     registerRemotes(remotes, {
       force: false, //isServer,
     });
-    await preloadRemote(remotes.map(({ name }) => ({ nameOrAlias: name })));
   }
 
   console.log("Finished loading remotes");
