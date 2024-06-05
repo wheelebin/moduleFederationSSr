@@ -4,9 +4,11 @@
   "scripts": {
     "start": "pnpm build && pnpm serve",
     "serve": "node dist/server/main.js",
+    "serve:watch": "tsx watch dist/server/main.js",
     "build": "pnpm build:server && pnpm build:client",
     "build:client": "rimraf dist/client && webpack --mode development --progress --config config/webpack.client.js",
-    "build:server": "rimraf dist/server && webpack --mode development --progress --config config/webpack.server.js"
+    "build:server": "rimraf dist/server && webpack --mode development --progress --config config/webpack.server.js",
+    "build:server:watch": "rimraf dist/server && webpack --mode development --watch --progress --config config/webpack.server.js"
   },
   "dependencies": {
     "express": "4.18.2",
@@ -18,6 +20,7 @@
     "regenerator-runtime": "0.14.1"
   },
   "devDependencies": {
+    "tsx": "^4.11.2",
     "@module-federation/enhanced": "^0.1.13",
     "@babel/core": "7.24.3",
     "@babel/node": "7.23.9",

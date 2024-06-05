@@ -1,7 +1,6 @@
-// import path from "path";
-const path = require("path");
+import path from "path";
 
-module.exports = (express, app) => {
+export default async (express, app) => {
   // static path where files such as images and js will be served from
   app.use("/static", express.static(path.join(process.cwd(), "dist/client")));
 
@@ -10,7 +9,7 @@ module.exports = (express, app) => {
   // =================== WARNING ===================
   app.use("/server", express.static(path.join(process.cwd(), "dist/server")));
 
-  const renderThunk = require("./server-entry").default;
+  const renderThunk = (await import("./server-entry")).default;
   const serverRender = renderThunk();
   app.get("/*", serverRender);
 };
