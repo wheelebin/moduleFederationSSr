@@ -4,7 +4,8 @@ import {
   preloadRemote,
   init,
   loadShareSync,
-} from "@module-federation/enhanced/runtime";
+} from "@module-federation/runtime";
+import nodeRuntimePlugin from "@module-federation/node/runtimePlugin";
 
 import * as react from "react";
 import * as reactDom from "react-dom";
@@ -110,12 +111,12 @@ export const loadSharedDep = (name) => {
 export const initialize = (remotes = []) => {
   const isServer = typeof window === "undefined";
 
-  const plugins = [];
+  const plugins = [nodeRuntimePlugin()];
   if (isServer) {
     // plugins.push(runtimePlugin());
   }
 
-  init({
+  const instance = init({
     name: "app1",
     remotes,
     plugins,
@@ -136,6 +137,7 @@ export const initialize = (remotes = []) => {
       },
     },
   });
+  //console.log("Initialized", instance);
 };
 
 const globalRemotesMap = {
@@ -163,38 +165,22 @@ const globalRemotesMap = {
 export const loadRemotes = async (isServer, wasRevalidated = false) => {
   const remotes = globalRemotesMap[isServer ? "server" : "client"];
 
-  if (isServer && wasRevalidated) {
-    console.log("Forcing remotes to re-register");
-    registerRemotes(remotes, {
-      force: true,
-    });
-    return;
-  }
+  initialize(remotes);
 
-  // initialize();
-
-  if (isServer) {
-    console.log("Registering remotes", { force: wasRevalidated });
-
-    registerRemotes(remotes, {
-      force: wasRevalidated,
-    });
-    console.log("Preloading remotes");
-    await preloadRemote(remotes.map(({ name }) => ({ nameOrAlias: name })));
-  } else {
-    registerRemotes(remotes, {
-      force: false, //isServer,
-    });
-    await preloadRemote(remotes.map(({ name }) => ({ nameOrAlias: name })));
-  }
+  registerRemotes(remotes, {
+    force: false, //isServer,
+  });
 
   console.log("Finished loading remotes");
 };
 
 export const getModule = async (id) => {
+  console.log("getModule: ", id);
   const { default: Component } = await loadRemote(id, {
-    from: "build",
+    from: "runtime",
   });
+
+  console.log("Module fetched");
 
   return Component;
 };

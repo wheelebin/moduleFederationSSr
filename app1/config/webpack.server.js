@@ -1,22 +1,22 @@
-const path = require('path');
-const { merge } = require('webpack-merge');
-const shared = require('./webpack.shared');
-const moduleFederationPlugin = require('./module-federation');
+const path = require("path");
+const { merge } = require("webpack-merge");
+const shared = require("./webpack.shared");
+const moduleFederationPlugin = require("./module-federation");
 
 /**
  * @type {import('webpack').Configuration}
  **/
 const webpackConfig = {
-  name: 'server',
-  target: 'async-node',
-  entry: [ path.resolve(__dirname, '../src/server/index')],
+  name: "server",
+  target: "async-node",
+  entry: [path.resolve(__dirname, "../src/server/index")],
   output: {
-    path: path.resolve(__dirname, '../dist/server'),
-    filename: '[name].js',
-    chunkFilename: '[id]-[chunkhash].js',
+    path: path.resolve(__dirname, "../dist/server"),
+    filename: "[name].js",
+    chunkFilename: "[name].[contenthash].js",
     libraryTarget: "commonjs-module",
   },
-  mode: 'development',
+  mode: "development",
   plugins: [...moduleFederationPlugin.server],
   stats: {
     colors: true,

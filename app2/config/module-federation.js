@@ -1,11 +1,11 @@
 const deps = require("../package.json").dependencies;
 const { ModuleFederationPlugin } = require("@module-federation/enhanced");
-const { UniversalFederationPlugin } = require('@module-federation/node');
+const { UniversalFederationPlugin } = require("@module-federation/node");
 
 module.exports = {
   client: new ModuleFederationPlugin({
     name: "app2",
-    filename: 'remoteEntry.js',
+    filename: "remoteEntry.js",
     exposes: {
       "./Content": "./src/client/components/Content",
     },
@@ -23,10 +23,10 @@ module.exports = {
   server: [
     new UniversalFederationPlugin({
       name: "app2",
+      library: { type: "commonjs-module" },
       isServer: true,
-      library: { type: "commonjs-module", name: "app2" },
-      remoteType: "script",
-      filename: 'remoteEntry.js',
+      filename: "remoteEntry.js",
+      useRuntimePlugin: true,
       exposes: {
         "./Content": "./src/client/components/Content",
         "./userRoute": "./src/server/routes/user",

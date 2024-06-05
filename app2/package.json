@@ -1,6 +1,6 @@
 {
   "name": "react-18-server-2-server_app2",
-  "version": "0.0.0",
+  "version": "0.0.4",
   "scripts": {
     "start": "pnpm build && pnpm serve",
     "serve": "node dist/server/main.js",

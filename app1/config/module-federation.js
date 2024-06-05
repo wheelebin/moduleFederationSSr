@@ -1,6 +1,6 @@
 const deps = require("../package.json").dependencies;
 const { ModuleFederationPlugin } = require("@module-federation/enhanced");
-const { UniversalFederationPlugin } = require('@module-federation/node');
+const { UniversalFederationPlugin } = require("@module-federation/node");
 
 module.exports = {
   client: new ModuleFederationPlugin({
@@ -15,10 +15,10 @@ module.exports = {
         singleton: true,
       },
       "react-dom": {
-        version: deps['react-dom'],
+        version: deps["react-dom"],
         singleton: true,
       },
-  },
+    },
   }),
   server: [
     new UniversalFederationPlugin({
@@ -27,6 +27,16 @@ module.exports = {
       library: { type: "commonjs-module", name: "app2" },
       filename: "remoteEntry.js",
       useRuntimePlugin: true,
+      shared: {
+        react: {
+          version: deps.react,
+          singleton: true,
+        },
+        "react-dom": {
+          version: deps["react-dom"],
+          singleton: true,
+        },
+      },
     }),
   ],
 };

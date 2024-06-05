@@ -1,22 +1,21 @@
-import path from 'path';
+import path from "path";
 
-const cors = require('cors')
+const cors = require("cors");
 
 function middleware(express, app, done) {
-
-  app.use(cors())
+  app.use(cors());
 
   // static path where files such as images and js will be served from
-  app.use('/static', express.static(path.join(process.cwd(), 'dist/client')));
+  app.use("/static", express.static(path.join(process.cwd(), "dist/client")));
 
   // =================== WARNING ===================
   // ATTENTION this will expose ALL server files
   // =================== WARNING ===================
-  app.use('/server', express.static(path.join(process.cwd(), 'dist/server')));
+  app.use("/server", express.static(path.join(process.cwd(), "dist/server")));
 
-  const renderThunk = require('./server-entry').default;
+  const renderThunk = require("./server-entry").default;
   const serverRender = renderThunk();
-  app.get('/*', serverRender);
+  app.get("/", serverRender);
 
   done();
 }
